@@ -73,8 +73,27 @@ namespace EmployeeAdminPortal.Controllers
 
         [HttpPut] //to update a particular resource
         [Route("{id:guid}")]
-        public IActionResult UpdateEmployee(Guid id) //the 2nd parameter is the thing we want to update => we will create another dto for this
+        //the 2nd parameter is the thing we want to update => we will create another dto for this (UpdateEmployeeDto)
+        public IActionResult UpdateEmployee(Guid id, UpdateEmployeeDto updateEmployeeDto) 
         {
+            //first we will try to find this employee (by Id)
+            var employee = dbContext.Employees.Find(id); //it could be null
+
+            if (employee is null)
+            {
+                return NotFound();
+            }
+
+            //if it was found, we want to update it
+            employee.Name = updateEmployeeDto.Name;
+            employee.Email = updateEmployeeDto.Email;
+            employee.Phone = updateEmployeeDto.Phone;
+            employee.Salary = updateEmployeeDto.Salary;
+
+            //next we need to save changes - if we forget to do so we will see no results in the db reflected
+            dbContext.SaveChanges(); //so that changed are reflected in the db
+
+            return Ok(employee);
 
         }
 
