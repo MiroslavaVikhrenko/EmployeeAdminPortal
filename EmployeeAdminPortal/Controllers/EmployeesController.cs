@@ -70,5 +70,14 @@ namespace EmployeeAdminPortal.Controllers
 
             //We did not initialize an id - it will be added for us by entity framework and it will be return to the user as well
         }
+
+        [HttpPut] //to update a particular resource
+        [Route("{id:guid}")]
+        public IActionResult UpdateEmployee(Guid id) //the 2nd parameter is the thing we want to update => we will create another dto for this
+        {
+
+        }
+
+
     }
 }
