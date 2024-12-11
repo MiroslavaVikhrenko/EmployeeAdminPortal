@@ -28,6 +28,23 @@ namespace EmployeeAdminPortal.Controllers
             return Ok(allEmployees);
         }
 
+        [HttpGet]
+        //we want to search by Id, so we need to specify a router parameter and its type is GUID
+        [Route("{id:guid}")]
+        //now we map this id with parameter to this method
+        public IActionResult GetEmployeeById(Guid id) //we need to give the same name as above: id so that it will match, for controller to be able to map it
+        {
+            var employee = dbContext.Employees.Find(id); //pass id as a key, employee will be nullable type of Employee
+
+            if (employee is null)
+            {
+                //return 404
+                return NotFound(); //you can also pass a message but I will leave it empty
+            }
+
+            return Ok(employee);
+        }
+
         [HttpPost]
         public IActionResult AddEmployee(AddEmployeeDto addEmployeeDto)
         {
